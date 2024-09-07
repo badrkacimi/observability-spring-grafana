@@ -1,0 +1,13 @@
+services:
+#  zipkin:
+#    image: 'openzipkin/zipkin:latest'
+#    ports:
+#      - '9411:9411'
+   prometheus:
+     image: prom/prometheus
+     container_name: prometheus
+     restart: unless-stopped
+     ports:
+       - "9090:9090"
+     volumes:
+       - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
