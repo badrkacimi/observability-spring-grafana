@@ -7,6 +7,6 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     scrape_interval: 5s
     static_configs:
-      - targets: ['my-product-service:8081']
+      - targets: ['192.168.81.131:8081']
         labels:
           application: 'My Product Service Application'

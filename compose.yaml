@@ -11,3 +11,33 @@ services:
        - "9090:9090"
      volumes:
        - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+   tempo:
+     image: grafana/tempo
+     container_name: tempo
+     command: [ "-config.file=/etc/tempo.yaml" ]
+     volumes:
+       - ./docker/tempo/tempo.yml:/etc/tempo.yaml:ro
+       - ./docker/tempo/tempo-data:/tmp/tempo
+     ports:
+       - "3200:3200" # Tempo
+       - "9411:9411" # zipkin
+
+   loki:
+     image: grafana/loki:main
+     container_name: loki
+     command: [ "-config.file=/etc/loki/local-config.yaml" ]
+     ports:
+       - "3100:3100"
+
+   grafana:
+     image: grafana/grafana
+     container_name: grafana
+     restart: unless-stopped
+     ports:
+       - "3000:3000"
+     volumes:
+       - ./docker/grafana:/etc/grafana/provisioning/datasources:ro
+     environment:
+       - GF_SECURITY_ADMIN_USER=admin
+       - GF_SECURITY_ADMIN_PASSWORD=password
